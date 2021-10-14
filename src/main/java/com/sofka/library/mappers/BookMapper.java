@@ -12,9 +12,10 @@ import java.util.function.Function;
 @Component
 public class BookMapper {
 
-    public Function<BookDTO, Book> mapperToBook() {
+    public Function<BookDTO, Book> mapperToBook(String id) {
         return updateBook -> {
             var book = new Book();
+            book.setId(id);
             book.setName(updateBook.getName());
             book.setBorrowed(updateBook.getBorrowed());
             book.setCategory(updateBook.getCategory());
