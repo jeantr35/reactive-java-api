@@ -1,4 +1,4 @@
-package com.sofka.library.usucases;
+package com.sofka.library.usecases;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

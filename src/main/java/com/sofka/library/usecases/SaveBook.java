@@ -1,4 +1,4 @@
-package com.sofka.library.usucases;
+package com.sofka.library.usecases;
 
 import com.sofka.library.models.BookDTO;
 import reactor.core.publisher.Mono;

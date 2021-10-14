@@ -1,8 +1,7 @@
 package com.sofka.library.routers;
 
 import com.sofka.library.models.BookDTO;
-import com.sofka.library.usucases.CreateUseCase;
-import com.sofka.library.usucases.ListUseCase;
+import com.sofka.library.usecases.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -38,6 +37,42 @@ public class BookRouter {
         return route(
                 POST("/create").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(BookDTO.class).flatMap(executor)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> get(GetUseCase getUseCase) {
+        return route(
+                GET("/get/{id}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getUseCase.apply(
+                                        request.pathVariable("id")),
+                                BookDTO.class
+                        ))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> update(UpdateUseCase updateUseCase) {
+        Function<BookDTO, Mono<ServerResponse>> executor = bookDTO ->  updateUseCase.apply(bookDTO)
+                .flatMap(result -> ServerResponse.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .bodyValue(result));
+
+        return route(
+                PUT("/update").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(BookDTO.class).flatMap(executor)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> delete(DeleteUseCase deleteUseCase){
+        return route(
+                DELETE("/delete/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.accepted()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
 

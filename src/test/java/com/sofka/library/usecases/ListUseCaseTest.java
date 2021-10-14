@@ -1,4 +1,4 @@
-package com.sofka.library.usucases;
+package com.sofka.library.usecases;
 
 import com.sofka.library.collections.Book;
 import com.sofka.library.mappers.BookMapper;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ListUseCaseTest {
