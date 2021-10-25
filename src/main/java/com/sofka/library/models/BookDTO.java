@@ -7,12 +7,22 @@ public class BookDTO {
     private String name;
     private String category;
     private Boolean borrowed;
+    private String date;
 
-    public BookDTO(String id, String name, String category, Boolean borrowed) {
+    public BookDTO(String id, String name, String category, Boolean borrowed, String date) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.borrowed = borrowed;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public Boolean getBorrowed() {

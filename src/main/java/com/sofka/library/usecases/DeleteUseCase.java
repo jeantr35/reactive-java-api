@@ -3,6 +3,7 @@ package com.sofka.library.usecases;
 import com.sofka.library.mappers.BookMapper;
 import com.sofka.library.repositories.BookRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -20,8 +21,8 @@ public class DeleteUseCase implements Function<String, Mono<Void>> {
     }
 
     @Override
-    public Mono<Void> apply(String id) {
+    public Mono<Void> apply(String id){
         Objects.requireNonNull(id, "Id required");
-        return bookRepository.deleteById(id);
+            return bookRepository.deleteById(id);
     }
 }

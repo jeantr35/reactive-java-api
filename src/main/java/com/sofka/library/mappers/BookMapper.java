@@ -19,12 +19,13 @@ public class BookMapper {
             book.setName(updateBook.getName());
             book.setBorrowed(updateBook.getBorrowed());
             book.setCategory(updateBook.getCategory());
+            book.setDate(updateBook.getDate());
             return book;
         };
     }
 
     public Function<Book, BookDTO> mapEntityToBook(){
-        return entity ->  new BookDTO(entity.getId(), entity.getName(), entity.getCategory(), entity.getBorrowed());
+        return entity ->  new BookDTO(entity.getId(), entity.getName(), entity.getCategory(), entity.getBorrowed(), entity.getDate());
     }
 
 }
