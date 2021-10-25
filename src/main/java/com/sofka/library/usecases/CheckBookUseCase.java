@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 import java.util.function.Function;
 
 @Service
-public class ReturnUseCase implements Function<String, Mono<String>> {
+public class CheckBookUseCase implements Function<String, Mono<String>> {
 
     private final BookRepository bookRepository;
     private final BookMapper mapper;
 
-    public ReturnUseCase(BookRepository bookRepository, BookMapper mapper) {
+    public CheckBookUseCase(BookRepository bookRepository, BookMapper mapper) {
         this.bookRepository = bookRepository;
         this.mapper = mapper;
     }
@@ -24,11 +24,12 @@ public class ReturnUseCase implements Function<String, Mono<String>> {
         return bookRepository.findById(id).flatMap(
                 book -> {
                     if(book.getBorrowed()) {
-                        book.setDate(LocalDateTime.now().toString());
-                        book.setBorrowed(false);
-                        return bookRepository.save(book).thenReturn("Libro devuelto en la fecha: " + book.getDate());
+                        return Mono.just("El libro con ID: " + book.getId() + " no se encuentra disponible," +
+                                " fue prestado en la fecha " + book.getDate());
                     }
-                    return Mono.just("El libro con ID: " + book.getId() + " no se puede devolver ya que no ha sido prestado");
+                    book.setDate(LocalDateTime.now().toString());
+                    book.setBorrowed(true);
+                    return bookRepository.save(book).thenReturn("Libro prestado en la fecha: " + book.getDate());
                 }
         );
     }
@@ -38,3 +39,4 @@ public class ReturnUseCase implements Function<String, Mono<String>> {
         return setBorrowed(id);
     }
 }
+

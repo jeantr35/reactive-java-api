@@ -20,12 +20,6 @@ public class BorrowUseCase implements Function<String, Mono<String>> {
         this.mapper = mapper;
     }
 
-    private Mono<Boolean> isBorrowed(String id){
-        return bookRepository.findById(id).map(
-                Book::getBorrowed
-        );
-    }
-
     private Mono<String> setBorrowed(String id){
         return bookRepository.findById(id).flatMap(
                 book -> {

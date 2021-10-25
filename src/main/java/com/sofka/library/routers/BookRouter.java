@@ -110,4 +110,15 @@ public class BookRouter {
         );
     }
 
+    @Bean
+    public RouterFunction<ServerResponse> checkBook(CheckBookUseCase checkBookUseCase){
+        return route(
+                GET("/check/{id}"),
+                request -> ServerResponse.accepted()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(checkBookUseCase.apply(request.pathVariable("id")), String.class))
+                        .onErrorResume((error) -> ServerResponse.badRequest().build())
+        );
+    }
+
 }
